@@ -1,0 +1,50 @@
+Customer Information:
+City of Springfield Department of Innovation and Technology (DoIT)
+
+Scope of Work:
+Provide managed IT modernization support for the Springfield Mobility Services program, including analytics, mapping, and citizen engagement.
+
+## Compliance Requirements
+| Requirement | Page |
+| --- | --- |
+| Follow municipal procurement rules and FAR Part 12 for commercial services. | 3 |
+| Ensure all deliverables meet ADA Section 508 accessibility guidance. | 6 |
+| Enforce privacy protections in line with the Privacy Act and city data-handling ordinances. | 7 |
+
+## Personnel Requirements
+| Requirement | Page |
+| --- | --- |
+| Key staff: Program Manager, Cloud Engineer, Data Analyst, UX Writer. | 4 |
+| Provide signed availability letters for all proposed key personnel. | 5 |
+| All staff must complete annual privacy and security training. | 8 |
+
+## Security Requirements
+| Requirement | Page |
+| --- | --- |
+| Adhere to NIST SP 800-53 Moderate controls for hosted systems. | 10 |
+| Use MFA for all administrative access to city systems. | 11 |
+| Report any suspected data incident within 2 hours to the City CISO. | 12 |
+
+## IT Standards
+| Requirement | Page |
+| --- | --- |
+| Prefer Azure Government services and FedRAMP Moderate SaaS platforms. | 14 |
+| Deliver dashboards compatible with Microsoft 365 and Power BI. | 15 |
+| Provide APIs that conform to REST/JSON conventions with OpenAPI documentation. | 16 |
+
+## Tasks
+| Task | Description | Page |
+| --- | --- | --- |
+| Task 1: Discovery & Planning | Gather current-state documentation, confirm requirements, and produce a modernization roadmap. | 18 |
+| Task 2: Platform Enhancement | Implement cloud infrastructure updates, integrations, and automated monitoring. | 20 |
+| Task 3: Data & Analytics | Build data pipelines, geospatial layers, and executive dashboards. | 22 |
+| Task 4: Training & Transition | Deliver knowledge transfer workshops and user guides for city staff. | 24 |
+
+## Key Dates
+| Event | Date | Page |
+| --- | --- | --- |
+| Q&A Deadline | July 8, 2025 at 2:00 PM CT | 2 |
+| Proposal Due | July 22, 2025 at 4:00 PM CT | 2 |
+| Project Kickoff | September 2, 2025 | 5 |
+| Phase 1 Completion | December 31, 2025 | 21 |
+| Final Acceptance | August 31, 2026 | 25 |
