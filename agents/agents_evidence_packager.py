@@ -51,7 +51,7 @@ def build_evidence_packager(active_pack_name: str) -> Agent:
         model=OpenAIChat(id=llm_model),
         tools=[ReasoningTools(add_instructions=True)],
         instructions=inject_pack_context(_BASE_INSTRUCTIONS, active_pack_name),
-        add_datetime_to_instructions=True,
+        add_datetime_to_context=True,
     )
 
 def run_evidence_packager(agent: Agent, payload: EvidenceInput) -> EvidencePack:

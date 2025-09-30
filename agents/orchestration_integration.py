@@ -48,7 +48,7 @@ def assemble_team_with_us_upgrades(
 
     team = Team(
         name=f"US-Orchestration ({active_pack_name})",
-        mode="coordinate",
+        # mode="coordinate",
         model=OpenAIChat(id=llm_model),
         members=members,
         tools=[ReasoningTools(add_instructions=True)],
@@ -62,12 +62,12 @@ def assemble_team_with_us_upgrades(
         ],
         markdown=True,
         show_members_responses=False,
-        enable_agentic_context=True,
-        add_datetime_to_instructions=True,
-        success_criteria=(
-            "Pack-aware deliverables present; no unresolved compliance gaps; "
-            "accessibility and SCRM evidence specified; tone unified; submission-ready."
-        ),
+        # enable_agentic_context=True,
+        add_datetime_to_context=True,
+        # success_criteria=(
+        #     "Pack-aware deliverables present; no unresolved compliance gaps; "
+        #     "accessibility and SCRM evidence specified; tone unified; submission-ready."
+        # ),
     )
 
     return team, active_pack_name, profile

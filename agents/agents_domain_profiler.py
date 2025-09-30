@@ -21,5 +21,5 @@ domain_profiler = Agent(
         "open_questions (list of short buyer questions). No prose.",
         "If uncertain, infer using strongest signals present.",
     ],
-    add_datetime_to_instructions=True,
+    add_datetime_to_context=True,
 )
