@@ -1,8 +1,6 @@
-from agno.agent import Agent
 from agno.models.anthropic import Claude
 from agno.models.openai import OpenAIChat
 from agno.team.team import Team
-from agno.tools.duckduckgo import DuckDuckGoTools
 from agno.tools.reasoning import ReasoningTools
 # from agno.tools.yfinance import YFinanceTools
 
@@ -23,6 +21,14 @@ from agents.agents_compliance_red_team import build_compliance_red_team
 from agents.agents_controls_mapper import build_controls_mapper
 from agents.agents_scrm_sbom import build_scrm_sbom_agent
 from agents.agents_accessibility import build_accessibility_agent
+from agents.agents_outlining_compliance import build_outlining_compliance_agent
+from agents.agents_english import build_english_agent
+from agents.agents_tone import build_tone_agent
+from agents.agents_proposal_scoring import build_proposal_scoring_agent
+from agents.agents_rfp_analyzer import build_rfp_analyzer_agent
+from agents.agents_technology import build_technology_agent
+from agents.agents_section_writer import build_section_writing_agent
+from agents.agents_proposal_outline import build_proposal_outline_agent
 
 dotenv_path = os.path.join(os.path.dirname(__file__), '.env')
 dotenv.load_dotenv(dotenv_path, override=True)
@@ -30,7 +36,7 @@ dotenv.load_dotenv(dotenv_path, override=True)
 llm_model = "gpt-4.1"
 llm_model = "gpt-5"
 # llm_model = "gpt-5-mini"
-llm_model = "gpt-5-nano"
+# llm_model = "gpt-5-nano"
     
 # import os, re
 
@@ -135,15 +141,15 @@ USER REQUEST:
                 raise ValueError(f"Failed to obtain valid JSON after {max_retries + 1} attempts. Last error: {err}")
 
 # Helper function to save structured outputs
-def save_structured_output(data: BaseModel, filename: str):
-    """Save structured output to JSON file with timestamp."""
+def save_structured_output(data: BaseModel, filename: str, dir_name: str = "rfp_analysis"):
+    """Save structured output to JSON file with timestamp in specified directory."""
+    import os
     from datetime import datetime
+    os.makedirs(dir_name, exist_ok=True)
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    full_filename = f"{filename}_{timestamp}.json"
-    
+    full_filename = os.path.join(dir_name, f"{filename}_{timestamp}.json")
     with open(full_filename, "w", encoding="utf-8") as f:
         json.dump(data.model_dump(), f, indent=2, ensure_ascii=False)
-    
     print(f"💾 Saved structured output to {full_filename}")
     return full_filename
 
@@ -158,151 +164,15 @@ def save_structured_output(data: BaseModel, filename: str):
 # 7. Maestor Agent: This is the orchestrating agent that will be responsible for coordinating the other agents and making sure the final proposal is correct and complete.
 
 
-# Outlining and Compliance Matrix Agent: Extracts a structured outline and compliance matrix from RFPs
-outlining_compliance_agent = Agent(
-    name="Outlining & Compliance Matrix Agent",
-    role="Extracts a detailed outline and compliance matrix from RFPs, mapping requirements to sections and ensuring all compliance items are captured. Outputs structured compliance matrix.",
-    model=OpenAIChat(id=llm_model),
-    tools=[ReasoningTools(add_instructions=True)],
-    instructions=[
-        "Generate a hierarchical outline of the RFP sections and subsections.",
-        "Extract all compliance requirements and map them to their corresponding sections/pages.",
-        "Create compliance matrix entries with: requirement, section, page, status (Y/N/Partial), owner, artifact, trigger, verification.",
-        "Highlight any ambiguous or missing compliance items.",
-        "Return ONLY valid JSON matching the ComplianceRow schema for each compliance item. No prose, no markdown, no code fences.",
-    ],
-    add_datetime_to_context=True,
-)
-
-# English Agent: Reviews proposal sections for clarity, correctness, and consistency
-english_agent = Agent(
-    name="English Agent",
-    role="Reviews proposal sections for clarity, correctness, grammar, tone, and logical flow. Provides feedback and suggested edits to ensure professional, consistent, and persuasive writing.",
-    model=OpenAIChat(id=llm_model),
-    tools=[ReasoningTools(add_instructions=True)],
-    instructions=[
-        "Read the provided proposal section(s) and check for grammar, spelling, and clarity.",
-        "Suggest edits to improve tone, flow, and persuasiveness, making sure the writing sounds like it is from the same author throughout.",
-        "Point out any logical inconsistencies or unclear statements.",
-        "Output both the revised text and a brief summary of changes.",
-        "Be concise and direct in your feedback.",
-    ],
-    add_datetime_to_context=True,
-)
-
-# Tone Agent: Ensures consistent, professional, and persuasive tone throughout the proposal
-tone_agent = Agent(
-    name="Tone Agent",
-    role="Ensures the proposal maintains a consistent, professional, and persuasive tone and style throughout all sections. Harmonizes voice, formality, and word choice.",
-    model=OpenAIChat(id=llm_model),
-    tools=[ReasoningTools(add_instructions=True)],
-    instructions=[
-        "Review the provided proposal sections for tone, style, and voice consistency.",
-        "Suggest edits to align all sections to a unified, professional, and persuasive tone.",
-        "Point out any sections that sound out of place or inconsistent.",
-        "Output both the harmonized text and a summary of tone/style changes.",
-        "Be specific and concise in your suggestions.",
-    ],
-    add_datetime_to_context=True,
-)
-
-# Proposal Scoring Agent: Scores the proposal based on RFP requirements and best practices
-proposal_scoring_agent = Agent(
-    name="Proposal Scoring Agent",
-    role="Scores the proposal against the RFP requirements and industry best practices. Provides a detailed breakdown of strengths, weaknesses, and actionable recommendations.",
-    model=OpenAIChat(id=llm_model),
-    tools=[ReasoningTools(add_instructions=True)],
-    instructions=[
-        "Evaluate the proposal section(s) for compliance, completeness, clarity, and competitiveness.",
-        "Score each section and the overall proposal on a 0-100 scale, with rationale for each score.",
-        "Highlight strengths, weaknesses, and areas for improvement.",
-        "Output a summary table: Section | Score | Strengths | Weaknesses | Recommendations.",
-        "Be objective, thorough, and actionable in your feedback.",
-    ],
-    add_datetime_to_context=True,
-)
-
-# RFP Analyzer Agent: Extracts structured information from plain RFP text
-rfp_analyzer_agent = Agent(
-    name="RFP Analyzer Agent",
-    role="Extracts structured information from RFP text, including customer, scope, tasks, requirements, and key dates. Outputs structured JSON for downstream processing.",
-    model=OpenAIChat(id=llm_model),
-    tools=[ReasoningTools(add_instructions=True)],
-    instructions=[
-        "Analyze the provided RFP text and extract the following:",
-        "- Customer (primary agency/department)",
-        "- Clear scope of work (1-2 sentences)",
-        "- Major tasks (active work activities to be performed, with titles, descriptions, and page numbers)",
-        '  Note: Only include actual work activities that require active effort, not compliance requirements',
-        "- Key requirements (rules, standards, compliance requirements with page numbers)",
-        "  Categories: Security, Compliance, IT Standards, Personnel",
-        "- Key dates (submission, performance period)",
-        '',
-        "Guidelines:",
-        '- Tasks must be active work activities (e.g., "Develop system", not "Must comply with")',
-        '- Requirements should be rules/standards that must be followed',
-        '- Group similar requirements under the same category',
-        '- Normalize date descriptions (e.g., \"after contract award\" vs \"after the date of award\")',
-        '- Avoid duplicate information with slight wording variations',
-        '- Each requirement, task, and date should appear only once in the output',
-        '- Consolidate similar requirements into single entries',
-        '',
-        "Return ONLY valid JSON matching the RFPAnalysis schema. No prose, no markdown, no code fences.",
-    ],
-    add_datetime_to_context=True,
-)
-
-technology_agent = Agent(
-    name="Technology Agent",
-    role="Research and summarize technologies relevant to the RFP, including recent trends, standards, and best practices. Provide concise, actionable insights with sources.",
-    model=OpenAIChat(id=llm_model),
-    tools=[DuckDuckGoTools()],
-    instructions=[
-        "Focus on technologies, frameworks, and standards directly relevant to the RFP.",
-        "Summarize findings clearly and cite all sources.",
-        "Highlight recent developments, pros/cons, and suitability for government/enterprise use.",
-    ],
-    add_datetime_to_context=True,
-)
-
-# Section Writing Agent: Drafts full proposal sections using outline, compliance, and research
-section_writing_agent = Agent(
-    name="Section Writing Agent",
-    role="Drafts complete proposal sections based on the provided outline, compliance matrix, and technology research. Integrates all requirements, best practices, and recommendations into clear, persuasive, and compliant proposal text.",
-    model=OpenAIChat(id=llm_model),
-    tools=[ReasoningTools(add_instructions=True)],
-    instructions=[
-        "For each section in the provided outline, write a detailed, professional draft that:",
-        "- Integrates all relevant compliance requirements, personnel/security/IT standards, and key dates.",
-        "- Incorporates technology research and best practices.",
-        "- Uses the compliance matrix to ensure all requirements are addressed.",
-        "- Follows the structure and recommendations from the English Agent.",
-        "- Uses clear, persuasive, and action-oriented language.",
-        "- References attachments, tables, and supporting documents as needed.",
-        "Output each section as markdown, with clear section headers and numbering.",
-        "Return a dictionary where each key is a section name/number and the value is the full markdown draft for that section.",
-        "Be specific, avoid generic statements, and ensure all RFP requirements are addressed.",
-        "Do not skip any sections from the outline.",
-        "CRITICAL: Write FULL, COMPLETE content for every section. Do not use placeholders, summaries, or incomplete drafts. Each section must be submission-ready with detailed, substantive content that fully addresses the RFP requirements.",
-    ],
-    add_datetime_to_context=True,
-)
-
-# Proposal Outline Agent: Generates a detailed proposal outline from RFP Analyzer output
-proposal_outline_agent = Agent(
-    name="Proposal Outline Agent",
-    role="Generates a detailed, hierarchical proposal outline based on the structured RFP analysis, ensuring all customer requirements and best practices are addressed in the proposal structure.",
-    model=OpenAIChat(id=llm_model),
-    tools=[ReasoningTools(add_instructions=True)],
-    instructions=[
-        "Read the structured RFP analysis (JSON) from the RFP Analyzer Agent.",
-        "Generate a recommended proposal outline that covers all required sections, subsections, and logical groupings to address the RFP.",
-        "Output the outline as a hierarchical numbered list (e.g., 1., 1.1, 1.2, 2., etc.) in markdown.",
-        "Flag any areas where the RFP is ambiguous or where additional sections may be needed for competitiveness.",
-        "Be concise and do not include content, just section titles/headings.",
-    ],
-    add_datetime_to_context=True,
-)
+# Core agent builders
+rfp_analyzer_agent = build_rfp_analyzer_agent(llm_model)
+proposal_outline_agent = build_proposal_outline_agent(llm_model)
+outlining_compliance_agent = build_outlining_compliance_agent(llm_model)
+technology_agent = build_technology_agent(llm_model)
+section_writing_agent = build_section_writing_agent(llm_model)
+english_agent = build_english_agent(llm_model)
+tone_agent = build_tone_agent(llm_model)
+proposal_scoring_agent = build_proposal_scoring_agent(llm_model)
 
 # Maestor Agent: Orchestrates all specialized agents to produce a complete, high-quality proposal
 maestor_team = Team(
@@ -540,8 +410,19 @@ Original RFP Text:
             console=console,
         )
     
-    console.save_text("proposal_pretty.txt")
-    print("Saved pretty output to proposal_pretty.txt")
+    from datetime import datetime
+    ts = datetime.now().strftime("%Y%m%d_%H%M%S")
+    pretty_filename = f"proposal_pretty_{ts}.txt"
+    console.save_text(pretty_filename)
+    # Truncate to last 3000 lines if needed
+    with open(pretty_filename, "r", encoding="utf-8") as f:
+        lines = f.readlines()
+    if len(lines) > 3000:
+        with open(pretty_filename, "w", encoding="utf-8") as f:
+            f.writelines(lines[-3000:])
+        print(f"Output exceeded 3000 lines, truncated to last 3000 lines in {pretty_filename}")
+    else:
+        print(f"Saved pretty output to {pretty_filename}")
 
 
 if __name__ == "__main__":

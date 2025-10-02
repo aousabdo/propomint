@@ -1,0 +1,117 @@
+{
+  "customer": "City of Springfield Department of Innovation and Technology (DoIT)",
+  "scope": {
+    "description": "Provide managed IT modernization support for the Springfield Mobility Services program, including analytics, mapping, and citizen engagement."
+  },
+  "tasks": [
+    {
+      "title": "Task 1: Discovery & Planning",
+      "description": "Gather current-state documentation, confirm requirements, and produce a modernization roadmap.",
+      "page": 18
+    },
+    {
+      "title": "Task 2: Platform Enhancement",
+      "description": "Implement cloud infrastructure updates, integrations, and automated monitoring.",
+      "page": 20
+    },
+    {
+      "title": "Task 3: Data & Analytics",
+      "description": "Build data pipelines, geospatial layers, and executive dashboards.",
+      "page": 22
+    },
+    {
+      "title": "Task 4: Training & Transition",
+      "description": "Deliver knowledge transfer workshops and user guides for city staff.",
+      "page": 24
+    }
+  ],
+  "requirements": [
+    {
+      "category": "Compliance",
+      "description": "Follow municipal procurement rules and FAR Part 12 for commercial services.",
+      "page": 3
+    },
+    {
+      "category": "Compliance",
+      "description": "Ensure all deliverables meet ADA Section 508 accessibility guidance.",
+      "page": 6
+    },
+    {
+      "category": "Compliance",
+      "description": "Enforce privacy protections in line with the Privacy Act and city data-handling ordinances.",
+      "page": 7
+    },
+    {
+      "category": "Personnel",
+      "description": "Key staff must include: Program Manager, Cloud Engineer, Data Analyst, and UX Writer.",
+      "page": 4
+    },
+    {
+      "category": "Personnel",
+      "description": "Provide signed availability letters for all proposed key personnel.",
+      "page": 5
+    },
+    {
+      "category": "Personnel",
+      "description": "All staff must complete annual privacy and security training.",
+      "page": 8
+    },
+    {
+      "category": "Security",
+      "description": "Adhere to NIST SP 800-53 Moderate controls for hosted systems.",
+      "page": 10
+    },
+    {
+      "category": "Security",
+      "description": "Use multi-factor authentication (MFA) for all administrative access to city systems.",
+      "page": 11
+    },
+    {
+      "category": "Security",
+      "description": "Report any suspected data incident within 2 hours to the City CISO.",
+      "page": 12
+    },
+    {
+      "category": "IT Standards",
+      "description": "Prefer Azure Government services and FedRAMP Moderate SaaS platforms.",
+      "page": 14
+    },
+    {
+      "category": "IT Standards",
+      "description": "Deliver dashboards compatible with Microsoft 365 and Power BI.",
+      "page": 15
+    },
+    {
+      "category": "IT Standards",
+      "description": "Provide APIs that conform to REST/JSON conventions with OpenAPI documentation.",
+      "page": 16
+    }
+  ],
+  "dates": [
+    {
+      "event": "Q&A Deadline",
+      "date": "July 8, 2025 at 2:00 PM CT",
+      "page": 2
+    },
+    {
+      "event": "Proposal Due",
+      "date": "July 22, 2025 at 4:00 PM CT",
+      "page": 2
+    },
+    {
+      "event": "Project Kickoff",
+      "date": "September 2, 2025",
+      "page": 5
+    },
+    {
+      "event": "Phase 1 Completion",
+      "date": "December 31, 2025",
+      "page": 21
+    },
+    {
+      "event": "Final Acceptance",
+      "date": "August 31, 2026",
+      "page": 25
+    }
+  ]
+}
