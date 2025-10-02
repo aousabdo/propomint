@@ -6,6 +6,7 @@ from agno.tools.reasoning import ReasoningTools
 
 import argparse
 import dotenv, os
+from datetime import datetime
 import re
 import json
 import textwrap
@@ -409,10 +410,11 @@ Original RFP Text:
             stream_intermediate_steps=False,
             console=console,
         )
-    
-    from datetime import datetime
+
     ts = datetime.now().strftime("%Y%m%d_%H%M%S")
-    pretty_filename = f"proposal_pretty_{ts}.txt"
+    output_dir = "output_proposals"
+    os.makedirs(output_dir, exist_ok=True)
+    pretty_filename = os.path.join(output_dir, f"proposal_pretty_{ts}.txt")
     console.save_text(pretty_filename)
     # Truncate to last 3000 lines if needed
     with open(pretty_filename, "r", encoding="utf-8") as f:
