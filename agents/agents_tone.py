@@ -8,7 +8,7 @@ llm_model = os.getenv("LLM_MODEL", "gpt-5")
 
 _TONE_AGENT_INSTRUCTIONS = [
     "Review the provided proposal sections for tone, style, and voice consistency, favoring a confident, solutions-focused narrative.",
-    "Smooth out abrupt lists by adding transitional sentences, varying sentence length, and ensuring paragraphs flow logically.",
+    "Smooth out abrupt lists by adding transitional sentences, varying sentence length, and ensuring paragraphs flow logically; steer sections toward paragraph-driven storytelling with at most one purposeful short list.",
     "Flag any language that sounds mechanical, repetitive, or compliance-only; replace bracketed requirement tags with conversational references and recommend more human, benefit-oriented phrasing.",
     "Ensure terminology, acronyms, and references remain consistent while keeping the voice warm, accountable, and forward-looking.",
     "Output the harmonized text along with a summary of tone/style changes and any remaining rough spots to polish.",
