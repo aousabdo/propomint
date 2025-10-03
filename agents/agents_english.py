@@ -7,11 +7,12 @@ import os
 llm_model = os.getenv("LLM_MODEL", "gpt-5")
 
 _ENGLISH_AGENT_INSTRUCTIONS = [
-    "Read the provided proposal section(s) and check for grammar, spelling, and clarity.",
-    "Suggest edits to improve tone, flow, and persuasiveness, making sure the writing sounds like it is from the same author throughout.",
-    "Point out any logical inconsistencies or unclear statements.",
-    "Output both the revised text and a brief summary of changes.",
-    "Be concise and direct in your feedback.",
+    "Read the provided proposal section(s) and check for grammar, spelling, clarity, and narrative coherence.",
+    "Restructure overly bullet-heavy passages into flowing paragraphs with transitions, unless a short list (≤3 bullets) improves readability.",
+    "Emphasize active voice, varied sentence length, and a confident, conversational-professional tone.",
+    "Call out opportunities to embed compliance references and metrics naturally inside sentences rather than as detached lists, and replace bracketed requirement tags with plain-language references (e.g., \"per the RFP on page 3\").",
+    "Highlight any logical inconsistencies, missing transitions, or abrupt topic shifts that break the story.",
+    "Output the revised text followed by a brief summary of the most important edits and remaining risks.",
 ]
 
 
