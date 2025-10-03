@@ -210,6 +210,13 @@ maestor_team = Team(
 )
 
 
+def _slugify_filename(text: str) -> str:
+    """Return a filesystem-friendly slug derived from the given text."""
+    slug = re.sub(r"[^A-Za-z0-9_-]+", "-", text)
+    slug = slug.strip("-_").lower()
+    return slug or "rfp"
+
+
 BASE_DIR = Path(__file__).resolve().parent
 DEFAULT_RFP_FILENAME = "sample_rfp_dev.txt"
 DEFAULT_RFP_PATH = BASE_DIR / DEFAULT_RFP_FILENAME
@@ -412,15 +419,17 @@ Original RFP Text:
         )
 
     ts = datetime.now().strftime("%Y%m%d_%H%M%S")
-    output_dir = "output_proposals"
-    os.makedirs(output_dir, exist_ok=True)
-    pretty_filename = os.path.join(output_dir, f"proposal_pretty_{ts}.txt")
-    console.save_text(pretty_filename)
+    base_output_dir = Path("output_proposals")
+    rfp_slug = _slugify_filename(rfp_path.stem)
+    proposal_dir = base_output_dir / rfp_slug
+    proposal_dir.mkdir(parents=True, exist_ok=True)
+    pretty_filename = proposal_dir / f"proposal_pretty_{rfp_slug}_{ts}.txt"
+    console.save_text(str(pretty_filename))
     # Truncate to last 3000 lines if needed
-    with open(pretty_filename, "r", encoding="utf-8") as f:
+    with pretty_filename.open("r", encoding="utf-8") as f:
         lines = f.readlines()
     if len(lines) > 3000:
-        with open(pretty_filename, "w", encoding="utf-8") as f:
+        with pretty_filename.open("w", encoding="utf-8") as f:
             f.writelines(lines[-3000:])
         print(f"Output exceeded 3000 lines, truncated to last 3000 lines in {pretty_filename}")
     else:
