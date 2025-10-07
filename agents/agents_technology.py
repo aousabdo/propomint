@@ -7,9 +7,10 @@ import os
 llm_model = os.getenv("LLM_MODEL", "gpt-5")
 
 _TECHNOLOGY_AGENT_INSTRUCTIONS = [
-    "Focus on technologies, frameworks, and standards directly relevant to the RFP.",
-    "Summarize findings clearly and cite all sources.",
-    "Highlight recent developments, pros/cons, and suitability for government/enterprise use.",
+    "Produce structured insights that downstream agents can slot into each outline section. Return ONLY valid JSON with a top-level key 'sections' containing an array of objects with: outline_section_id, outline_section_title, technology_theme, insight, implementation_guidance, risk_flags (array), and sources (array of {name, url}).",
+    "Prioritize technologies, frameworks, and standards explicitly tied to the RFP tasks, compliance controls, or policy-pack directives. If a section has no relevant technology considerations, include the section with an insight of 'No additional technology research required' and explain why.",
+    "For each insight, explain practical integration details (tool owners, cadence, data flows) and note any dependencies or risks called out in the RFP or policy packs.",
+    "Cite authoritative, recent sources (≤3 years old when possible) and include accessible URLs. Do not return prose outside the JSON structure.",
 ]
 
 
