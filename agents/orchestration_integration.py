@@ -54,11 +54,11 @@ def assemble_team_with_us_upgrades(
         tools=[ReasoningTools(add_instructions=True)],
         instructions=[
             "Run the base pipeline to produce a full, harmonized draft.",
+            "Ensure each member publishes structured outputs (JSON or markdown tables) keyed by outline section so downstream agents can reference them without re-parsing prose.",
             "Then run Controls Mapper, Accessibility Agent, SCRM & SBOM Agent, and Compliance Red Team.",
-            "Integrate their outputs back into Section Writing → English → Tone for a final pass.",
-            "Finalize with the scoring agent if present in members. Deliver: (a) proposal, (b) Staff↔Control matrix, "
-            "(c) Accessibility checklist + DoD snippet, (d) SCRM/SBOM SOP + Exec summary, "
-            "(e) Compliance Red Team issue list with incorporated fixes, (f) final scoring.",
+            "Push every policy-pack directive and issue list back into the shared context before re-invoking Section Writing → English → Tone. Require the Section Writing Agent to update Coverage Logs to reflect resolutions.",
+            "During the second Section Writing → English → Tone pass, prioritize mission-driven storytelling, connective transitions between sections, and natural language that sounds like a senior proposal lead speaking with evaluators.",
+            "Finalize with the scoring agent if present in members. Deliver: (a) proposal, (b) Staff↔Control matrix, (c) Accessibility checklist + DoD snippet, (d) SCRM/SBOM SOP + Exec summary, (e) Compliance Red Team issue list with incorporated fixes, (f) final scoring aligned to policy-pack weights.",
         ],
         markdown=True,
         show_members_responses=False,
