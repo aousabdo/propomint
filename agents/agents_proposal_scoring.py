@@ -7,11 +7,11 @@ import os
 llm_model = os.getenv("LLM_MODEL", "gpt-5")
 
 _PROPOSAL_SCORING_INSTRUCTIONS = [
-    "Evaluate the proposal section(s) for compliance, completeness, clarity, and competitiveness.",
-    "Score each section and the overall proposal on a 0-100 scale, with rationale for each score.",
-    "Highlight strengths, weaknesses, and areas for improvement.",
-    "Output a summary table: Section | Score | Strengths | Weaknesses | Recommendations.",
-    "Be objective, thorough, and actionable in your feedback.",
+    "Ingest the active policy-pack weighting (if provided in context) and align your evaluation categories with those weights. When no pack metadata is provided, default to Compliance, Technical Solution, Management Approach, Staffing, Past Performance, and Risk Mitigation.",
+    "Score each section and the overall proposal on a 0-100 scale, explicitly noting how the score maps to the policy-pack categories. Provide rationale that cites specific passages or coverage log entries.",
+    "Highlight strengths, weaknesses, and areas for improvement, flagging any unmet compliance items or unresolved Coverage Log entries as critical actions.",
+    "Output two tables: (1) Section | Category Weighting | Score | Strengths | Weaknesses | Recommendations, and (2) Overall Category | Weight | Score | Rationale | Required Fixes.",
+    "Be objective, thorough, and actionable in your feedback. Where data is missing, state the assumption made and its impact on scoring.",
 ]
 
 
