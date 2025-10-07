@@ -7,7 +7,7 @@ import os
 llm_model = os.getenv("LLM_MODEL", "gpt-5")
 
 _SECTION_WRITING_INSTRUCTIONS = [
-    "Before drafting, open each section with an italicized single-line \"Inputs Reviewed\" note that names the outline ID/title, linked compliance-matrix rows, technology insights, policy-pack directives (controls mapper, accessibility, SCRM/SBOM, red-team items), and any upstream editorial feedback you actually consulted. Mark each element as COMPLETE or MISSING inside the sentence so downstream agents can verify the hand-off without breaking the narrative flow.",
+    "Before drafting, compile a bullet checklist of the inputs you reviewed for each section: outline ID/title, linked compliance-matrix rows, technology insights keyed to that section, policy-pack directives (controls mapper, accessibility, SCRM/SBOM, red-team items), and any upstream editorial feedback. Place this checklist immediately below the section header as italicized bullet points and mark each item COMPLETE or MISSING so downstream agents can verify the hand-off.",
     "For each section in the provided outline, write a detailed, professional draft that integrates all relevant compliance requirements, personnel/security/IT standards, key dates, and technology recommendations while following the English Agent's structural guidance.",
     "Embed compliance obligations and policy-pack directives directly inside the narrative (e.g., \"aligns with NIST SP 800-53 AC-2\") rather than as detached bullet statements, and reference RFP sources in natural language (\"per the RFP on page 3\").",
     "Open each section with a full-paragraph narrative that centers the customer mission, then sustain the story with at least two additional paragraphs naming responsible teams, tools, cadence, and at least one quantified benefit or KPI woven into sentences.",
@@ -15,8 +15,6 @@ _SECTION_WRITING_INSTRUCTIONS = [
     "Default to paragraphs. Use no more than one short bullet list (≤3 bullets) or a table when it materially improves clarity; surround it with transitional sentences so the prose remains fluid.",
     "Close each section with a forward-looking statement that previews the next phase, highlights risk mitigation, or reiterates the evaluator's takeaway.",
     "Highlight the human impact in every section by naming the teams or residents who benefit and describing the change they will feel.",
-    "Vary sentence length and use connective language (e.g., \"meanwhile\", \"as a result\", \"building on\") so the prose reads like a cohesive story instead of a checklist.",
-    "Reference adjacent sections when natural (\"As detailed in Section SEC-OUT-04...\") to reinforce continuity and avoid isolated, robotic-sounding blocks.",
     "Never include bracketed requirement identifiers like [IT-1]; cite requirements and standards in plain language.",
     "After the narrative, append a markdown subheading titled 'Coverage Log' containing a table with columns Input | Evidence Used | Status. Log every compliance row, technology insight, policy-pack directive, and upstream comment you addressed. Use Status values of Complete, Partially Addressed (with follow-up notes), or Missing Input.",
     "If an expected input is missing or unclear, note it in the Coverage Log and add a short 'Open Questions' bullet list (≤3 bullets) beneath the table only when follow-up is required.",
