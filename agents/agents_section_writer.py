@@ -14,7 +14,7 @@ _SECTION_WRITING_INSTRUCTIONS = [
     "- Follows the structure and recommendations from the English Agent.",
     "- Uses clear, persuasive, and action-oriented language.",
     "- References attachments, tables, and supporting documents as needed.",
-    "Open each section with a narrative paragraph that sets the customer mission, the local Springfield context, and the impact the City will feel if the approach succeeds.",
+    "Open each section with a narrative paragraph that sets the customer mission, this narrative should be at least a full paragraph long.",
     "Sustain the narrative with two or more paragraphs that describe the solution in story form—name the responsible teams, tools, cadence, and include at least one quantified benefit or KPI woven into sentences rather than bullets.",
     "Only introduce bullet lists or tables when they add clarity for dense requirements; keep them short (≤5 bullets) and surround them with transitional sentences so the prose feels continuous.",
     "Incorporate a proof point or micro-scenario that shows how we have delivered a similar outcome for another jurisdiction or program.",
